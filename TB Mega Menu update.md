@@ -2,16 +2,13 @@
 
 1. \var\www\html\schmidt-new\web\modules\contrib\tb_megamenu\tb_megamenu.module
 
-    18 строка
-
 ```
+    18 строка
 //After updating you have to add these
 use Drupal\Core\Menu\MenuLinkInterface;
 use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
-```
 
     684 строка
-```
   }
   // Add this 
    $vars['close']=[];
@@ -22,10 +19,8 @@ use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
   }
   //
 }
-```
 
     758 строка
-```
 // These 2 modules
 function MY_MODULE_menu_item_cleanup(&$item, $language) {
 
