@@ -1,6 +1,8 @@
 После обновления модуля требуется добавить след. строки:
 
 1. \var\www\html\schmidt-new\web\modules\contrib\commerce\modules\order\commerce_order.workflows.yml
+
+```
 ...
 my_module_fulfillment_processing:
   id: my_module_fulfillment_processing
@@ -46,3 +48,4 @@ my_module_fulfillment_processing:
       label: 'Cancel order'
       from: [draft,paid, processing,  shipped]
       to:   canceled      
+```
