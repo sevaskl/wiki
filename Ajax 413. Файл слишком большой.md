@@ -2,13 +2,14 @@
 [error] 744#744:  client intended to send too large body:
 
 Проверить параметры:
- > 1. php.ini
-    ```  
+ 1. php.ini
+ ```  
       ...
       post_max_size = 12M
       upload_max_filesize = 12M
   ```
- > 2. etc/nginx/nginx.conf 
+ 
+ 2. etc/nginx/nginx.conf 
  ```
       ...
       http{
