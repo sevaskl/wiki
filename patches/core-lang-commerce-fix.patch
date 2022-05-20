@@ -1,0 +1,158 @@
+diff --git a/core/modules/user/src/Plugin/LanguageNegotiation/LanguageNegotiationUserAdmin.php b/core/modules/user/src/Plugin/LanguageNegotiation/LanguageNegotiationUserAdmin.php
+index fec14c3262..f249a73a3b 100644
+--- a/core/modules/user/src/Plugin/LanguageNegotiation/LanguageNegotiationUserAdmin.php
++++ b/core/modules/user/src/Plugin/LanguageNegotiation/LanguageNegotiationUserAdmin.php
+@@ -11,6 +11,7 @@
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ use Symfony\Component\HttpFoundation\Request;
+ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
++use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+ use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
+ 
+@@ -137,10 +138,7 @@ protected function isAdminPath(Request $request) {
+           $path = $this->pathProcessorManager->processInbound(urldecode(rtrim($cloned_request->getPathInfo(), '/')), $cloned_request);
+           $attributes = $this->router->match($path);
+         }
+-        catch (ResourceNotFoundException $e) {
+-          return FALSE;
+-        }
+-        catch (AccessDeniedHttpException $e) {
++        catch (ResourceNotFoundException | AccessDeniedHttpException | MethodNotAllowedException $exception) {
+           return FALSE;
+         }
+         $route_object = $attributes[RouteObjectInterface::ROUTE_OBJECT];
+diff --git a/core/modules/user/tests/modules/user_language_test/src/Controller/UserLanguageTestController.php b/core/modules/user/tests/modules/user_language_test/src/Controller/UserLanguageTestController.php
+new file mode 100644
+index 0000000000..280dafdaad
+--- /dev/null
++++ b/core/modules/user/tests/modules/user_language_test/src/Controller/UserLanguageTestController.php
+@@ -0,0 +1,17 @@
++<?php
++
++namespace Drupal\user_language_test\Controller;
++
++/**
++ * Returns responses for User Language Test routes.
++ */
++class UserLanguageTestController {
++
++  /**
++   * Builds the response.
++   */
++  public function buildPostResponse() {
++    return ['#markup' => 'It works!'];
++  }
++
++}
+diff --git a/core/modules/user/tests/modules/user_language_test/src/Form/UserLanguageTestForm.php b/core/modules/user/tests/modules/user_language_test/src/Form/UserLanguageTestForm.php
+new file mode 100644
+index 0000000000..f20d044840
+--- /dev/null
++++ b/core/modules/user/tests/modules/user_language_test/src/Form/UserLanguageTestForm.php
+@@ -0,0 +1,46 @@
++<?php
++
++namespace Drupal\user_language_test\Form;
++
++use Drupal\Core\Form\FormBase;
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Url;
++
++/**
++ * Provides a User Language Test form.
++ */
++class UserLanguageTestForm extends FormBase {
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getFormId() {
++    return 'user_language_test';
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildForm(array $form, FormStateInterface $form_state) {
++
++    $form['#action'] = Url::fromRoute('user_language_test.post_response')->toString();
++
++    $form['actions'] = [
++      '#type' => 'actions',
++      'submit' => [
++        '#type' => 'submit',
++        '#value' => $this->t('Send'),
++      ],
++    ];
++
++    return $form;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function submitForm(array &$form, FormStateInterface $form_state) {
++
++  }
++
++}
+diff --git a/core/modules/user/tests/modules/user_language_test/user_language_test.info.yml b/core/modules/user/tests/modules/user_language_test/user_language_test.info.yml
+new file mode 100644
+index 0000000000..5df005c016
+--- /dev/null
++++ b/core/modules/user/tests/modules/user_language_test/user_language_test.info.yml
+@@ -0,0 +1,5 @@
++name: 'User language tests'
++type: module
++description: 'Support module for user language testing.'
++package: Testing
++version: VERSION
+diff --git a/core/modules/user/tests/modules/user_language_test/user_language_test.routing.yml b/core/modules/user/tests/modules/user_language_test/user_language_test.routing.yml
+new file mode 100644
+index 0000000000..c8ddc89d21
+--- /dev/null
++++ b/core/modules/user/tests/modules/user_language_test/user_language_test.routing.yml
+@@ -0,0 +1,16 @@
++user_language_test.post_response:
++  path: '/user-language-test/post'
++  defaults:
++    _controller: Drupal\user_language_test\Controller\UserLanguageTestController::buildPostResponse
++  methods: [post]
++  options:
++    _admin_route: TRUE
++  requirements:
++    _access: 'TRUE'
++
++user_language_test.form:
++  path: '/user-language-test/form'
++  defaults:
++    _form: 'Drupal\user_language_test\Form\UserLanguageTestForm'
++  requirements:
++    _access: 'TRUE'
+diff --git a/core/modules/user/tests/src/Functional/UserAdminLanguageTest.php b/core/modules/user/tests/src/Functional/UserAdminLanguageTest.php
+index 3eff84d81a..9f2f444d65 100644
+--- a/core/modules/user/tests/src/Functional/UserAdminLanguageTest.php
++++ b/core/modules/user/tests/src/Functional/UserAdminLanguageTest.php
+@@ -31,7 +31,7 @@ class UserAdminLanguageTest extends BrowserTestBase {
+    *
+    * @var array
+    */
+-  protected static $modules = ['user', 'language', 'language_test'];
++  protected static $modules = ['user', 'language', 'language_test', 'user_language_test'];
+ 
+   /**
+    * {@inheritdoc}
+@@ -152,6 +152,12 @@ public function testActualNegotiation() {
+     $this->drupalGet('xx/' . $path);
+     $this->assertSession()->pageTextContains('Language negotiation method: language-user-admin');
+ 
++    // Make sure 'language-user-admin' plugin does not fail when a route is
++    // restricted to POST requests.
++    // @see https://www.drupal.org/node/2706241
++    $this->drupalPostForm('/user-language-test/form', [], 'Send');
++    $this->assertSession()->statusCodeEquals(200);
++
+     // Unset the preferred language code for the user.
+     $edit = [];
+     $edit['preferred_admin_langcode'] = '';
