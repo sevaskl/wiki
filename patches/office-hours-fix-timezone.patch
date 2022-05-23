@@ -1,56 +1,102 @@
-diff --git a/office_hours.api.php b/office_hours.api.php
-new file mode 100644
-index 0000000..4907eb8
---- /dev/null
-+++ b/office_hours.api.php
-@@ -0,0 +1,33 @@
-+<?php
-+
-+/**
-+ * @file
-+ * Hooks and API provided by the "Office Hours" module.
-+ */
-+
-+use Drupal\Core\Entity\EntityInterface;
-+
-+/**
-+ * @addtogroup hooks
-+ * @{
-+ */
-+
-+/**
-+ * Allows to alter the current time of isOpen() method.
-+ *
-+ * @param int $time
-+ * @param \Drupal\Core\Entity\EntityInterface $node
-+ */
-+function hook_office_hours_isopen_time_alter(int &$time, EntityInterface $entity) {
-+  // Assume that all owned entities (for example, offices and ad) should
-+  // depends on user timezone. Add user timezone to time.
-+  if ($entity instanceof \Drupal\user\EntityOwnerInterface
-+    && ($account = $entity->getOwner())
-+    && ($account->isAuthenticated())
-+  ) {
-+    $date_time = new \DateTime();
-+    $date_time->setTimestamp($time);
-+    $date_time->setTimezone(new \DateTimeZone($account->getTimeZone()));
-+    $time = $date_time->getTimestamp();
-+  }
-+}
-\ No newline at end of file
-diff --git a/src/Plugin/Field/FieldType/OfficeHoursItemList.php b/src/Plugin/Field/FieldType/OfficeHoursItemList.php
-index cc6a9a6..0eb7e65 100644
---- a/src/Plugin/Field/FieldType/OfficeHoursItemList.php
-+++ b/src/Plugin/Field/FieldType/OfficeHoursItemList.php
-@@ -19,6 +19,11 @@ class OfficeHoursItemList extends FieldItemList implements OfficeHoursItemListIn
-     // Detect the current line and the open/closed status.
-     // Convert the day_number to (int) to get '0' for Sundays, not 'false'.
-     $time = ($time === NULL) ? \Drupal::time()->getRequestTime() : $time;
-+
-+    // Allows to alter the current time.
-+    $entity = $this->getEntity();
-+    \Drupal::moduleHandler()->alter('office_hours_isopen_time', $time, $entity);
-+
-     $today = (int) idate('w', $time); // Get day_number sun=0 - sat=6.
-     $now = date('Hi', $time); // 'Hi' format, with leading zero (0900).
-     $is_open = FALSE;
+diff --git a/office_hours.theme.inc b/office_hours.theme.inc
+index 4a51c77..8ece3dd 100644
+--- a/office_hours.theme.inc
++++ b/office_hours.theme.inc
+@@ -11,9 +11,12 @@
+ function office_hours_theme() {
+   $themes['office_hours'] = [
+     'variables' => [
+-      'office_hours' => [],
+       'parent' => NULL,
+       'view_mode' => NULL,
++      // Pass filtered office_hours structures to twig theming.
++      'office_hours' => [],
++      // Pass (unfiltered) office_hours items to twig theming.
++      'office_hours_field' => [],
+       'item_separator' => '<br />',
+       'slot_separator' => ', ',
+       'closed_text' => NULL,
+@@ -24,7 +27,10 @@ function office_hours_theme() {
+     'variables' => [
+       'parent' => NULL,
+       'view_mode' => NULL,
++      // Pass filtered office_hours structures to twig theming.
+       'office_hours' => [],
++      // Pass (unfiltered) office_hours items to twig theming.
++      'office_hours_field' => [],
+       'table' => [],
+     ],
+     'file' => 'office_hours.theme.inc',
+@@ -33,6 +39,10 @@ function office_hours_theme() {
+     'variables' => [
+       'parent' => NULL,
+       'view_mode' => NULL,
++      // Pass filtered office_hours structures to twig theming.
++      'office_hours' => [],
++      // Pass (unfiltered) office_hours items to twig theming.
++      'office_hours_field' => [],
+       'is_open' => FALSE,
+       'open_text' => NULL,
+       'closed_text' => NULL,
+@@ -41,9 +51,12 @@ function office_hours_theme() {
+   ];
+   $themes['office_hours_schema'] = [
+     'variables' => [
+-      'office_hours' => [],
+       'parent' => NULL,
+       'view_mode' => NULL,
++      // Pass filtered office_hours structures to twig theming.
++      'office_hours' => [],
++      // Pass (unfiltered) office_hours items to twig theming.
++      'office_hours_field' => [],
+     ],
+     'file' => 'office_hours.theme.inc',
+   ];
+diff --git a/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterDefault.php b/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterDefault.php
+index 3235823..013550f 100644
+--- a/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterDefault.php
++++ b/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterDefault.php
+@@ -53,8 +53,10 @@ class OfficeHoursFormatterDefault extends OfficeHoursFormatterBase {
+     $elements[] = [
+       '#theme' => 'office_hours',
+       '#parent' => $field_definition,
+-      // Pass office_hours to twig theming.
++      // Pass filtered office_hours structures to twig theming.
+       '#office_hours' => $office_hours,
++      // Pass (unfiltered) office_hours items to twig theming.
++      '#office_hours_field' => $items,
+       '#item_separator' => $settings['separator']['days'],
+       '#slot_separator' => $settings['separator']['more_hours'],
+       '#attributes' => [
+diff --git a/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterSchema.php b/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterSchema.php
+index 6120cad..e3d112f 100644
+--- a/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterSchema.php
++++ b/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterSchema.php
+@@ -80,8 +80,10 @@ class OfficeHoursFormatterSchema extends OfficeHoursFormatterBase {
+     $office_hours = $items->getRows($settings, $this->getFieldSettings(), $third_party_settings);
+     $elements[] = [
+       '#theme' => 'office_hours_schema',
+-      // Pass office_hours to twig theming.
++      // Pass filtered office_hours structures to twig theming.
+       '#office_hours' => $office_hours,
++      // Pass (unfiltered) office_hours items to twig theming.
++      '#office_hours_field' => $items,
+       '#item_separator' => $settings['separator']['days'],
+       '#slot_separator' => $settings['separator']['more_hours'],
+       '#attributes' => [
+diff --git a/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterTable.php b/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterTable.php
+index 4f5da07..bd00abf 100644
+--- a/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterTable.php
++++ b/src/Plugin/Field/FieldFormatter/OfficeHoursFormatterTable.php
+@@ -121,8 +121,10 @@ class OfficeHoursFormatterTable extends OfficeHoursFormatterBase {
+     $elements[] = [
+       '#theme' => 'office_hours_table',
+       '#table' => $table,
+-      // Pass office_hours to twig theming.
++      // Pass filtered office_hours structures to twig theming.
+       '#office_hours' => $office_hours,
++      // Pass (unfiltered) office_hours items to twig theming.
++      '#office_hours_field' => $items,
+       '#cache' => [
+         'max-age' => $items->getStatusTimeLeft($settings, $this->getFieldSettings()),
+         'tags' => ['office_hours:field.table'],
