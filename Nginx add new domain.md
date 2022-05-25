@@ -8,4 +8,5 @@
 5. Проверка кода и перезапуск nginx. 
 ```
 sudo nginx -t
-service nginx reload```
+service nginx reload
+```
