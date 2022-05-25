@@ -5,5 +5,7 @@
 ``` ln -s /etc/nginx/sites-available/www.example.org /etc/nginx/sites-enabled/ ```
 4. Прописать домен в настройках сайта. /var/www/html/schmidt-new/web/sites/default/settings.php
 ``` $config['language.negotiation']['url']['domains']['fr'] = 'schmidt-and-schmidt.kz'; ```
-5. Перезапуск nginx. 
-```service nginx reload```
+5. Проверка кода и перезапуск nginx. 
+```
+sudo nginx -t
+service nginx reload```
