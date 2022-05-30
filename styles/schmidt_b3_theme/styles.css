@@ -2512,6 +2512,7 @@ img.imagbox {
 .user-image-box,
 .tile-image-box {
     display: block;
+    padding-bottom: 15px;
     width: 100%;
     overflow: hidden;
 }
@@ -2761,12 +2762,8 @@ a .fa:hover {
 /* Info Tabs -------------------------------------------------- */
 
 .main-container .info-tab {
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    padding: 15px 0 20px 0px;
-    margin-bottom: 15px;
-    position: relative;
-    transition: all 0.2s ease-in-out;
+    margin-bottom: 20px;
+
 }
 
 .main-container .ico-tab {
@@ -2808,7 +2805,6 @@ a .fa:hover {
 .team-member {
     padding-bottom: 30px;
 }
-
 .block-views h2,
 .block-views h3 {
     padding-top: 0px;
@@ -2977,7 +2973,7 @@ ol.breadcrumb>li>a {
         /* width: calc(100% + 120px);*/
         left: -45px;
         height: 60px;
-    }
+    }  
 }
 
 .all-users {
@@ -3421,10 +3417,13 @@ ol.breadcrumb>li>a {
     color: transparent;
 }
 
+
+.info-tabs .info-tab,
 .view-job-offers .thumbnail,
 .view-reviews .thumbnail {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     padding: 20px 30px;
+	border-radius: 4px;
 }
 
 .view-reviews .thumbnail img {
@@ -3729,9 +3728,6 @@ ol.breadcrumb>li>a {
     background-color: #47a447;
     border-color: #47a448;
 }
-
-
-}
 .payment-regulations {
     margin: 10px;
     justify-content: center;
@@ -3888,7 +3884,7 @@ section#block-cartflyout {
 }
 .order-tracking p {
     color: #A4A4A4;
-    font-size: 16px;
+    font-size: 16px;c
     margin-top: 8px;
     margin-bottom: 0;
     line-height: 20px;
@@ -3931,8 +3927,21 @@ section#block-cartflyout {
     display: inline-block;
 }
 
+input[value="Add to cart"] {
+    color: #fff;
+    background-color: #5cb85c;
+    -webkit-appearance: auto;
+    border-radius: 5px;
+    border: none;
+    line-height: 1;
+    font-size: 1.8rem;
+    padding: 16px 40px;
+}
+
+@media only screen and (min-width: 768px) {
 /* Align rows content in chess-grid (odd-even) */
-.align-chess-grid:nth-child(even) { 
-    display: flex;
-    flex-direction: row-reverse;
+    .align-chess-grid:nth-child(even) { 
+        display: flex;
+        flex-direction: row-reverse;
+    }
 }
