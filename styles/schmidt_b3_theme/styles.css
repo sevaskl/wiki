@@ -3930,3 +3930,9 @@ section#block-cartflyout {
 .user-logged-in .cart-flyout {
     display: inline-block;
 }
+
+/* Align rows content in chess-grid (odd-even) */
+.align-chess-grid:nth-child(even) { 
+    display: flex;
+    flex-direction: row-reverse;
+}
