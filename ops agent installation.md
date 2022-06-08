@@ -27,24 +27,24 @@
 
 **II. Привязать аккаунт к VM.**
 1. В файле  /etc/systemd/system.conf  прописать след. строку: 
-  ```
-   DefaultEnvironment="GOOGLE_APPLICATION_CREDENTIALS=path_to_credentials_file"****
-  ```
+    ```
+     DefaultEnvironment="GOOGLE_APPLICATION_CREDENTIALS=path_to_credentials_file"
+    ```
 2. Перезагрузить конфигуранию переменных и агенты на VM
-  ```
-   sudo systemctl daemon-reload
-   sudo service google-cloud-ops-agent restart
-  ```
+    ```
+     sudo systemctl daemon-reload
+     sudo service google-cloud-ops-agent restart
+    ```
 
 **III. Выполнить установку OPS Agent.**
 https://cloud.google.com/monitoring/agent/ops-agent/installation
 
 1. Выполнить след. команты в директории, где есть достаточно прав доступа (или использовать sudo).
-  ```
-  curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
-  sudo bash add-google-cloud-ops-agent-repo.sh --also-install
-  ```
-  2. Проверить статус работы агента. Не должно быть ошибок.
+    ```
+    curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
+    sudo bash add-google-cloud-ops-agent-repo.sh --also-install
+    ```
+2. Проверить статус работы агента. Не должно быть ошибок.
   ```
   sudo systemctl status google-cloud-ops-agent"*"
   ```
