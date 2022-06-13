@@ -2254,8 +2254,15 @@ small {
     font-size: 1.2rem;
 }
 
+
 .title-link {
     color: #0E008A;
+	padding-bottom: 15px;
+}
+
+.block-title {
+    color: #0E008A;
+	padding-bottom: 20px;
 }
 
 .header--title {
@@ -2512,7 +2519,6 @@ img.imagbox {
 .user-image-box,
 .tile-image-box {
     display: block;
-    padding-bottom: 15px;
     width: 100%;
     overflow: hidden;
 }
@@ -2805,6 +2811,12 @@ a .fa:hover {
 .team-member {
     padding-bottom: 30px;
 }
+
+.team-member .user-image-box {
+	padding-bottom: 15px;
+}
+
+
 .block-views h2,
 .block-views h3 {
     padding-top: 0px;
@@ -3927,7 +3939,13 @@ section#block-cartflyout {
     display: inline-block;
 }
 
-input[value="Add to cart"] {
+input[value="Add to cart"], 
+input[value="Zum Warenkorb hinzufügen"],
+input[value="Ajouter au panier"],
+input[value="Aggiungi al carrello"],
+input[value="В корзину"],
+input[value="Sepete ekle"],
+input[value="添加到购物车"] {
     color: #fff;
     background-color: #5cb85c;
     -webkit-appearance: auto;
