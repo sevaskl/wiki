@@ -1,0 +1,172 @@
+/* websites (pictures and movies) */
+
+a[href$='.pdf']::before,
+a[href$='.pdf']:active ::before {
+    font-family: FontAwesome;
+    font-size: inherit;
+    content: "\f1c1";
+    color: #fb1101;
+    padding-right: 0.3em;
+    position: relative;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* PGP */
+
+a[href$='.pgp']::before,
+a[href$='.cer']::before,
+a[href$='.asc']::before,
+a[href$='.pgp']:active::before,
+a[href$='.cer']:active::before,
+a[href$='.asc']:active::before {
+    font-family: FontAwesome;
+    font-size: 140%;
+    content: "\f023";
+    padding-right: 0.3em;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* email */
+
+.e-mai::before,
+a[href ^="mailto:"]::before,
+a[href ^="mailto:"]:active::before {
+    font-family: FontAwesome;
+    font-size: 110%;
+    content: "\f0e0";
+    padding-right: 0.3em;
+    position: relative;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.share-email .e-mai::before,
+.share-email a[href ^="mailto:"]::before,
+.share-email a[href ^="mailto:"]:active::before {
+    content: none;
+}
+
+
+/* telephone */
+
+.phone::before,
+
+/* [itemprop ^="telephone"]::before,
+[itemprop ^="telephone"]:active::before  */
+
+a[href ^="tel:"]::before,
+a[href ^="tel:"]:active::before {
+    font-family: FontAwesome;
+    font-size: 120%;
+    content: "\f095";
+    padding-right: 0.3em;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* web */
+
+[itemprop ^="url"]::before,
+[itemprop ^="url"]:active::before {
+    font-family: FontAwesome;
+    font-size: 140%;
+    content: "\f0ac";
+    padding-right: 0.3em;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* tags */
+
+.submitted>.field.field-name-field-tags::before {
+    font-family: FontAwesome;
+    font-size: 140%;
+    content: "\f02c";
+    padding-right: 0.3em;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* fax */
+
+[itemprop ^="faxNumber"]::before,
+[itemprop ^="faxNumber"]:active::before {
+    font-family: FontAwesome;
+    font-size: 120%;
+    content: "\f1ac";
+    padding-right: 0.3em;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/*info-popover */
+
+.info-popover::before {
+    cursor: help;
+    font-family: FontAwesome;
+    font-size: 140%;
+    content: "\f05a";
+    padding-right: 0.3em;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* use this class to make sure that images won't get iconized */
+
+.imageLink {
+    padding-right: 0px !important;
+    background: none !important;
+}
