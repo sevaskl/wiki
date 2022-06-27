@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * Implements hook_views_data().
+ */
+function smartip_custom_filter_views_data() {
+  $data = [];
+
+  $data['views']['smartip_custom_filter'] = [
+    'title' => t('Smart IP Custom Filter'),
+    'filter' => [
+      'title' => t('Smart IP Custom Filter'),
+      'field' => 'id',
+      'id' => 'smartip_custom_filter',
+    ],
+  ];
+
+  return $data;
+}
