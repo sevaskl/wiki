@@ -1,0 +1,5 @@
+<?php
+
+function comment_locale_filter_entity_type_alter(&$entity_types) {
+  $entity_types['comment']->setStorageClass('Drupal\comment_locale_filter\Storage\CommentStorage');
+}
