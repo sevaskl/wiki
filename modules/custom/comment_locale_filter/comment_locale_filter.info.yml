@@ -1,0 +1,7 @@
+name: Comment Locale Filter
+type: module
+description: 'Filter comments based on locale'
+package: Custom
+core_version_requirement: ^8 || ^9
+dependencies:
+  - drupal:text
