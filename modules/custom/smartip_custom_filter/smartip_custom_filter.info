@@ -1,0 +1,7 @@
+name: Smart IP Custom Filter
+type: module
+package: Custom
+description: 'Enables supprot of Views in Smart IP Module.'
+core_version_requirement: '^9'
+dependencies:
+  - drupal:smart_ip
