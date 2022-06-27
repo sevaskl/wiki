@@ -1,0 +1,14 @@
+field.formatter.settings.comment_locale_filter_multilang:
+  type: mapping
+  label: 'Comment display format settings'
+  mapping:
+    view_mode:
+      type: string
+      label: 'The comment entity view mode to be used in this formatter'
+    pager_id:
+      type: integer
+      label: 'Pager ID'
+
+field.widget.settings.comment_locale_filter_multilang:
+  type: mapping
+  label: 'Comment display format settings'
