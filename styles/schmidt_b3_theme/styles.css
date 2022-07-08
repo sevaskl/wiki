@@ -3957,38 +3957,29 @@ width: auto;
     display: flex;
     flex-direction: column;
 }
-body:lang(en) ul li.lang-en{order: -1;}
-body:lang(en) ul li.lang-en a{
-    color: gray;
-    pointer-events: none;
-}
-body:lang(de) ul li.lang-de{order: -1;}
-body:lang(de) ul li.lang-de a{
-    color: gray;
-    pointer-events: none;
-}
-body:lang(fr) ul li.lang-fr{order: -1;}
-body:lang(fr) ul li.lang-fr a{
-    color: gray;
-    pointer-events: none;
-}
-body:lang(it) ul li.lang-it{order: -1;}
-body:lang(it) ul li.lang-it a{
-    color: gray;
-    pointer-events: none;
-}
-body:lang(ru) ul li.lang-ru{order: -1;}
-body:lang(ru) ul li.lang-ru a{
-    color: gray;
-    pointer-events: none;
-}
-body:lang(zh-hans) ul li.lang-zh-hans{order: -1;}
-body:lang(zh-hans) ul li.lang-zh-hans a{
-    color: gray;
-    pointer-events: none;
-}
-body:lang(tr) ul li.lang-tr{order: -1;}
-body:lang(tr) ul li.lang-tr a{
+
+
+/* Language switcher */
+body:lang(de) ul li.lang-de,
+body:lang(en) ul li.lang-en,
+body:lang(fr) ul li.lang-fr,
+body:lang(it) ul li.lang-it,
+body:lang(kk) ul li.lang-kk,
+body:lang(ru) ul li.lang-ru,
+body:lang(tr) ul li.lang-tr,
+body:lang(zh-hans) ul li.lang-zh-hans {
+	order: -1;
+	}
+	
+
+body:lang(de) ul li.lang-de a,
+body:lang(en) ul li.lang-en a,
+body:lang(fr) ul li.lang-fr a,
+body:lang(it) ul li.lang-it a,
+body:lang(kk) ul li.lang-kk a,
+body:lang(ru) ul li.lang-ru a,
+body:lang(tr) ul li.lang-tr a,
+body:lang(zh-hans) ul li.lang-zh-hans a {
     color: gray;
     pointer-events: none;
 }
