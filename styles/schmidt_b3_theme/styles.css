@@ -287,7 +287,7 @@ p.label {
 
 /***Changes on 02.10 Body **/
 
-@media (max-width: 979.9px) {
+@media (max-width: 979.8px) {
     #header {
         left: -5px;
     }
@@ -1742,7 +1742,7 @@ ul.tb-megamenu-subnav.k1 {
     left: 10px;
 }
 
-@media (max-width: 979.9px) {
+@media (max-width: 979.8px) {
     .field-content.carousel-caption {
         padding: 0 !important;
     }
@@ -3946,4 +3946,49 @@ width: auto;
 
 .view-store-address .telephone {
 	  margin-right: 10px;
+}
+
+.office-hours-status {
+    font-size: 1.2rem;
+    line-height: 2.1;
+}
+
+.row .language ul{
+    display: flex;
+    flex-direction: column;
+}
+body:lang(en) ul li.lang-en{order: -1;}
+body:lang(en) ul li.lang-en a{
+    color: gray;
+    pointer-events: none;
+}
+body:lang(de) ul li.lang-de{order: -1;}
+body:lang(de) ul li.lang-de a{
+    color: gray;
+    pointer-events: none;
+}
+body:lang(fr) ul li.lang-fr{order: -1;}
+body:lang(fr) ul li.lang-fr a{
+    color: gray;
+    pointer-events: none;
+}
+body:lang(it) ul li.lang-it{order: -1;}
+body:lang(it) ul li.lang-it a{
+    color: gray;
+    pointer-events: none;
+}
+body:lang(ru) ul li.lang-ru{order: -1;}
+body:lang(ru) ul li.lang-ru a{
+    color: gray;
+    pointer-events: none;
+}
+body:lang(zh-hans) ul li.lang-zh-hans{order: -1;}
+body:lang(zh-hans) ul li.lang-zh-hans a{
+    color: gray;
+    pointer-events: none;
+}
+body:lang(tr) ul li.lang-tr{order: -1;}
+body:lang(tr) ul li.lang-tr a{
+    color: gray;
+    pointer-events: none;
 }
