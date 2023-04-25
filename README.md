@@ -32,3 +32,7 @@
       mysql -h localhost -u root -p schmidt_db
 
 ### Сервисы twig модем подключить в Schmidt-new/we/sites/default/serives.yml. напр. Debug-mode=true
+
+### Установка модулей принудительно 
+	sudo composer require --no-update 'drupal/svg_embed:^2.0@beta'
+	composer require 'drupal/svg_embed:^2.0@beta'
